@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+require 'ca_plus'
+
+# options
+opts_c   = ARGV.shift || "help"
+
+commands = opts_c.split(',')
+
+# setup environment
+PS_CAP_CONF = ENV['PS_CAP_CONF'] || "#{ENV['HOME']}/.cap.conf"
+if File.exists?(PS_CAP_CONF) then
+    File.readlines(PS_CAP_CONF).each do |line|
+        if line.start_with? "#" then
+            next 
+        else
+            key, value = line.split "="
+            ENV[key] = value.strip
+        end
+    end
+end
+
+# constants
+# OS_CONST            = os
+PS_HOME             = ENV['PS_HOME']
+CA_HOME             = ENV['CA_HOME'] || 'C:\Program Files\PeopleSoft\Change Assistant'
+CA_BASE             = ENV['CA_BASE']
+SQL_HOME            = ENV['SQL_HOME']
+PLATFORM            = ENV['PLATFORM']
+
+# process
+commands.each do |c|
+    case "#{c}"
+    when "help"
+        do_help
+        p "#{PS_HOME}"
+    when "launch"
+        do_launch
+    when "configure"
+        do_configure
+    else
+        
+    end
+end
